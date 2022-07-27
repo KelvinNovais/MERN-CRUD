@@ -1,0 +1,15 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "Server for the MERN CRUD.",
+  "main": "index.js",
+  "repository": "https://github.com/KelvinNovais/MERN-CRUD",
+  "author": "Kelvin Novais",
+  "license": "GPL-3.0-only",
+  "private": false,
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.1",
+    "mysql": "^2.18.1"
+  }
+}
