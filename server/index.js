@@ -18,6 +18,7 @@ app.listen(3001, () => {
   console.log("Wow, the server is running on port 3001.")
 })
 
+// inserir
 app.post('/create', (req, res) => {
   const name = req.body.name;
   const age = req.body.age;
@@ -38,12 +39,44 @@ app.post('/create', (req, res) => {
   );
 });
 
-app.get('/getEmployees', (req, res)=> {
+// obter valores
+app.get('/getEmployees', (req, res) => {
   db.query("SELECT * FROM employees", (err, result) => {
     if (err) {
-      console.log(err)
+      console.log(err);
     } else {
-      res.send(result)
+      res.send(result);
+    }
+  });
+});
+
+// update
+app.put('/update', (req, res) => {
+  const id = req.body.id;
+  const wage = req.body.wage;
+
+  db.query("UPDATE employees SET wage = ? WHERE id = ?",
+    [wage, id],
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.send(result);
+      }
+    }
+  )
+});
+
+// deletar
+app.delete('/delete/:id', (req, res) => {
+  const id = req.params.id;
+
+  db.query("DELETE FROM employees WHERE id = ?", id,
+  (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.send(result);
     }
   })
-})
+});

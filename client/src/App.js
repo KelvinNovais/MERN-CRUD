@@ -9,6 +9,7 @@ function App() {
   const [position, setPosition] = useState("");
   const [wage, setWage] = useState(0);
   const [employeeList, setEmployeeList] = useState([]);
+  const [newWage, setNewWage] = useState(0);
 
   const addEmployee = () => {
     Axios.post('http://localhost:3001/create', {
@@ -33,6 +34,33 @@ function App() {
   const getEmployees = () => {
     Axios.get('http://localhost:3001/getEmployees').then((response) => {
       setEmployeeList(response.data);
+    })
+  }
+
+  const updateEmployeesWage = (id) => {
+    Axios.put('http://localhost:3001/update', {wage: newWage, id: id}).then(
+      (response) => {
+        setEmployeeList(employeeList.map((val) => {
+          return val.id === id
+            ? {
+              id: val.id,
+              name: val.name,
+              age: val.age,
+              country: val.country,
+              position: val.position,
+              wage: newWage
+            } : val;
+        }))
+        alert("Updated!");
+      }
+    )
+  }
+
+  const deleteEmployee = (id) => {
+    Axios.delete(`http://localhost:3001/delete/${id}`).then((responde) => {
+      setEmployeeList(employeeList.filter((val) => {
+        return val.id !== id
+      }))
     })
   }
 
@@ -71,6 +99,29 @@ function App() {
               <h3>Position: {val.position}</h3>
               <h3>Wage: {val.wage}</h3>
               <h3>Country: {val.country}</h3>
+
+              <div className="line">
+                <hr />
+              </div>
+
+              <div>
+                <h3>Update wage: </h3>
+                <input
+                  type="text"
+                  placeholder="100..."
+                  onChange={(event) => setNewWage(event.target.value)}
+                /><br />
+
+                <button onClick={() => {updateEmployeesWage(val.id)}}>Update</button>
+              </div>
+
+              <div className="line">
+                <hr />
+              </div>
+
+              <div>
+                <button onClick={() => deleteEmployee(val.id)}>Delete</button>
+              </div>
             </div>
           )
         })}
